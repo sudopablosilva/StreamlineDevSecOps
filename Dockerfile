@@ -29,10 +29,10 @@ COPY package*.json ./
 RUN yarn install --production
 
 # Copy built application from build stage
-COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/dist/src ./
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Command to run the application
-CMD ["node", "dist/main"]
+CMD ["node", "main"]
