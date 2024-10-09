@@ -1,48 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Recipe } from './entities/recipe.entity';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { Recipe } from './entities/recipe.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RecipesService {
   private recipes: Recipe[] = [];
 
-  create(createRecipeDto: CreateRecipeDto) {
-    const recipe = new Recipe();
-    recipe.id = Date.now().toString();
-    recipe.name = createRecipeDto.name;
-    recipe.ingredients = createRecipeDto.ingredients;
-    recipe.instructions = createRecipeDto.instructions;
-    this.recipes.push(recipe);
-    return recipe;
+  create(createRecipeDto: CreateRecipeDto): Recipe {
+    const newRecipe = {
+      id: uuidv4(),
+      ...createRecipeDto,
+    };
+    this.recipes.push(newRecipe);
+    return newRecipe;
   }
 
-  findAll() {
-    return this.recipes;
+  findAll(page: number = 1, limit: number = 10): Recipe[] {
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    return this.recipes.slice(startIndex, endIndex);
   }
 
-  findOne(id: string) {
+  findOne(id: string): Recipe | undefined {
     return this.recipes.find(recipe => recipe.id === id);
   }
 
-  update(id: string, updateRecipeDto: UpdateRecipeDto) {
-    const recipe = this.findOne(id);
-    if (recipe) {
-      Object.assign(recipe, updateRecipeDto);
-    }
-    return recipe;
-  }
-
-  remove(id: string) {
+  update(id: string, updateRecipeDto: UpdateRecipeDto): Recipe | undefined {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     if (index !== -1) {
-      return this.recipes.splice(index, 1)[0];
+      this.recipes[index] = { ...this.recipes[index], ...updateRecipeDto };
+      return this.recipes[index];
     }
-    return null;
+    return undefined;
   }
 
-  searchByIngredient(ingredient: string) {
-    return this.recipes.filter(recipe =>
+  remove(id: string): boolean {
+    const index = this.recipes.findIndex(recipe => recipe.id === id);
+    if (index !== -1) {
+      this.recipes.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  searchByIngredient(ingredient: string): Recipe[] {
+    return this.recipes.filter(recipe => 
       recipe.ingredients.some(i => i.toLowerCase().includes(ingredient.toLowerCase()))
     );
   }
