@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine AS build
+FROM public.ecr.aws/docker/library/node:22-alpine as build
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Runtime stage
-FROM node:18-alpine
+FROM public.ecr.aws/docker/library/node:22-alpine
 
 # Set working directory
 WORKDIR /usr/src/app
