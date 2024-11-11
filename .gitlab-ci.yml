@@ -33,7 +33,9 @@ sast:
 
 sca:
   stage: build
-  image: anchore/grype:debug
+  image: 
+    entrypoint: [""]
+    name: anchore/grype:debug
   script:
     - /grype dir:. -o sarif > gl-dependency-scanning-report.json
   rules:
@@ -55,7 +57,9 @@ secrets:
 
 sbom:
   stage: build
-  image: anchore/syft:debug
+  image: 
+    entrypoint: [""]
+    name: anchore/syft:debug
   script:
     - /syft dir:. -o json > gl-sbom-report.json
   rules:
