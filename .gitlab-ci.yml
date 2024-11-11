@@ -54,7 +54,7 @@ secrets:
       secret_detection: gl-secret-detection-report.json
 
 sbom:
-  stage: test
+  stage: build
   image: anchore/syft
   script:
     - syft dir:. -o json > gl-sbom-report.json
