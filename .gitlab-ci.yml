@@ -33,7 +33,9 @@ sast:
 
 sca:
   stage: build
-  image: anchore/grype
+  image: 
+    name: anchore/grype
+    entrypoint: [""]
   script:
     - grype dir:.
   rules:
