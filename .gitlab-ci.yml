@@ -1,7 +1,7 @@
 stages:
   - build
-  - test
-  - deploy
+  - gamma
+  - prod
 
 build:
   image: node:latest
@@ -13,15 +13,15 @@ build:
     paths:
       - dist/
 
-test:
+unit-test:
   image: node:latest
-  stage: test
+  stage: build
   script:
     - yarn install
     - npm test
 
 sast:
-  stage: test
+  stage: build
   image: returntocorp/semgrep
   script:
     - semgrep ci
@@ -32,7 +32,7 @@ sast:
       sast: gl-sast-report.json
 
 sca:
-  stage: test
+  stage: build
   image: anchore/grype
   script:
     - grype dir:.
@@ -43,7 +43,7 @@ sca:
       dependency_scanning: gl-dependency-scanning-report.json
 
 secrets:
-  stage: test
+  stage: build
   image: zricethezav/gitleaks
   script:
     - gitleaks detect --source . -v
@@ -64,9 +64,9 @@ sbom:
     reports:
       cyclonedx: gl-sbom-report.json
 
-deploy-test:
+deploy-gamma:
   image: node:latest
-  stage: deploy
+  stage: gamma
   script:
     - npm install -g aws-cdk
     - yarn install
