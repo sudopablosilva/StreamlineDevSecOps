@@ -1,4 +1,4 @@
-import { Stack, StackProps, Stage, StageProps } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Cluster, ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
@@ -24,13 +24,5 @@ export class EcsServiceStack extends Stack {
       publicLoadBalancer: true,
     });
 
-  }
-}
-
-export class RecipeApplication extends Stage {
-  constructor(scope: Construct, id: string, props?: StageProps) {
-    super(scope, id, props);
-
-    new EcsServiceStack(this, 'RecipeService');
   }
 }

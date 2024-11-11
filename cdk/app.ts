@@ -1,10 +1,10 @@
 import * as cdk from 'aws-cdk-lib';
-import { PipelineStack } from './pipeline-stack';
+import { EcsServiceStack } from './ecs-service-stack';
 
 const app = new cdk.App();
-new PipelineStack(app, 'RecipesPipelineStack', {
+new EcsServiceStack(app, 'RecipesService', {
   env: {
-    account: '314716890391',
-    region: 'us-east-1',
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
   },
-});
+})

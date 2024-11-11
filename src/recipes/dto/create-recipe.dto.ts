@@ -2,10 +2,10 @@ import { IsString, IsArray, IsNotEmpty, ArrayMinSize } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateRecipeDto {
-  @ApiProperty({ description: 'The name of the recipe' })
+  @ApiProperty({ description: 'The title of the recipe' })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  title: string;
 
   @ApiProperty({ description: 'List of ingredients', type: [String] })
   @IsArray()

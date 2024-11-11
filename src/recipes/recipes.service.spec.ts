@@ -21,13 +21,13 @@ describe('RecipesService', () => {
   describe('create', () => {
     it('should create a new recipe', () => {
       const createRecipeDto: CreateRecipeDto = {
-        name: 'Test Recipe',
+        title: 'Test Recipe',
         ingredients: ['ingredient1', 'ingredient2'],
         instructions: 'Test instructions',
       };
       const createdRecipe = service.create(createRecipeDto);
       expect(createdRecipe).toHaveProperty('id');
-      expect(createdRecipe.name).toBe(createRecipeDto.name);
+      expect(createdRecipe.title).toBe(createRecipeDto.title);
       expect(createdRecipe.ingredients).toEqual(createRecipeDto.ingredients);
       expect(createdRecipe.instructions).toBe(createRecipeDto.instructions);
     });
@@ -36,7 +36,7 @@ describe('RecipesService', () => {
   describe('findAll', () => {
     it('should return an array of recipes', () => {
       const createRecipeDto: CreateRecipeDto = {
-        name: 'Test Recipe',
+        title: 'Test Recipe',
         ingredients: ['ingredient1', 'ingredient2'],
         instructions: 'Test instructions',
       };
@@ -49,7 +49,7 @@ describe('RecipesService', () => {
     it('should return paginated results', () => {
       for (let i = 0; i < 15; i++) {
         service.create({
-          name: `Test Recipe ${i}`,
+          title: `Test Recipe ${i}`,
           ingredients: ['ingredient1', 'ingredient2'],
           instructions: 'Test instructions',
         });
@@ -64,7 +64,7 @@ describe('RecipesService', () => {
   describe('findOne', () => {
     it('should return a recipe by id', () => {
       const createRecipeDto: CreateRecipeDto = {
-        name: 'Test Recipe',
+        title: 'Test Recipe',
         ingredients: ['ingredient1', 'ingredient2'],
         instructions: 'Test instructions',
       };
@@ -82,25 +82,25 @@ describe('RecipesService', () => {
   describe('update', () => {
     it('should update a recipe', () => {
       const createRecipeDto: CreateRecipeDto = {
-        name: 'Test Recipe',
+        title: 'Test Recipe',
         ingredients: ['ingredient1', 'ingredient2'],
         instructions: 'Test instructions',
       };
       const createdRecipe = service.create(createRecipeDto);
       const updateRecipeDto: UpdateRecipeDto = {
-        name: 'Updated Test Recipe',
+        title: 'Updated Test Recipe',
         ingredients: ['ingredient1', 'ingredient2', 'ingredient3'],
       };
       const updatedRecipe = service.update(createdRecipe.id, updateRecipeDto);
       expect(updatedRecipe).not.toBeNull();
-      expect(updatedRecipe!.name).toBe(updateRecipeDto.name);
+      expect(updatedRecipe!.title).toBe(updateRecipeDto.title);
       expect(updatedRecipe!.ingredients).toEqual(updateRecipeDto.ingredients);
       expect(updatedRecipe!.instructions).toBe(createdRecipe.instructions);
     });
 
     it('should return undefined for non-existent id', () => {
       const updateRecipeDto: UpdateRecipeDto = {
-        name: 'Updated Test Recipe',
+        title: 'Updated Test Recipe',
       };
       const updatedRecipe = service.update('non-existent-id', updateRecipeDto);
       expect(updatedRecipe).toBeUndefined();
@@ -110,7 +110,7 @@ describe('RecipesService', () => {
   describe('remove', () => {
     it('should remove a recipe', () => {
       const createRecipeDto: CreateRecipeDto = {
-        name: 'Test Recipe',
+        title: 'Test Recipe',
         ingredients: ['ingredient1', 'ingredient2'],
         instructions: 'Test instructions',
       };
@@ -130,17 +130,17 @@ describe('RecipesService', () => {
   describe('searchByIngredient', () => {
     it('should return recipes containing the specified ingredient', () => {
       const recipe1 = service.create({
-        name: 'Recipe 1',
+        title: 'Recipe 1',
         ingredients: ['ingredient1', 'ingredient2'],
         instructions: 'Test instructions',
       });
       const recipe2 = service.create({
-        name: 'Recipe 2',
+        title: 'Recipe 2',
         ingredients: ['ingredient2', 'ingredient3'],
         instructions: 'Test instructions',
       });
       const recipe3 = service.create({
-        name: 'Recipe 3',
+        title: 'Recipe 3',
         ingredients: ['ingredient3', 'ingredient4'],
         instructions: 'Test instructions',
       });

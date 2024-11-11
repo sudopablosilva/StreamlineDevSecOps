@@ -1,0 +1,82 @@
+stages:
+  - build
+  - test
+
+build:
+  image: node:latest
+  stage: build
+  script:
+    - yarn install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+test:
+  image: node:latest
+  stage: test
+  script:
+    - yarn install
+    - npm test
+
+sast:
+  stage: test
+  image: returntocorp/semgrep
+  script:
+    - semgrep ci
+  rules:
+    - when: always
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
+
+sca:
+  stage: test
+  image: anchore/grype
+  script:
+    - grype dir:.
+  rules:
+    - when: always
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+
+secrets:
+  stage: test
+  image: zricethezav/gitleaks
+  script:
+    - gitleaks detect --source . -v
+  rules:
+    - when: always
+  artifacts:
+    reports:
+      secret_detection: gl-secret-detection-report.json
+
+sbom:
+  stage: test
+  image: anchore/syft
+  script:
+    - syft dir:. -o json > gl-sbom-report.json
+  rules:
+    - when: always
+  artifacts:
+    reports:
+      cyclonedx: gl-sbom-report.json
+
+deploy-test:
+  image: node:latest
+  stage: deploy
+  script:
+    - npm install -g aws-cdk
+    - yarn install
+    - cdk deploy --require-approval never
+  environment:
+    name: test
+  only:
+    - main
+  variables:
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    AWS_DEFAULT_REGION: us-east-1
+  dependencies:
+    - build

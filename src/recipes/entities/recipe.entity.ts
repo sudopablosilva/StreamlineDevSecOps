@@ -4,8 +4,8 @@ export class Recipe {
   @ApiProperty({ description: 'The unique identifier of the recipe' })
   id: string;
 
-  @ApiProperty({ description: 'The name of the recipe' })
-  name: string;
+  @ApiProperty({ description: 'The title of the recipe' })
+  title: string;
 
   @ApiProperty({ description: 'List of ingredients', type: [String] })
   ingredients: string[];
