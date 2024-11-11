@@ -14,10 +14,9 @@ build:
   variables:
     AWS_CREDS_TARGET_ROLE: arn:aws:iam::464380571579:role/gitlab-caseypl
     AWS_DEFAULT_REGION: us-west-2
+    AWS_SDK_LOAD_CONFIG: true
     CI_REGISTRY_IMAGE: 464380571579.dkr.ecr.us-west-2.amazonaws.com/cdk-hnb659fds-container-assets-464380571579-us-west-2
   script:
-    -  mkdir -p /kaniko/.docker
-    -  echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
