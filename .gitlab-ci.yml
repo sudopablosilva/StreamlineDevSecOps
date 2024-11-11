@@ -24,7 +24,7 @@ sast:
   stage: build
   image: returntocorp/semgrep
   script:
-    - semgrep ci
+    - semgrep ci --sarif > gl-sast-report.json
   rules:
     - when: always
   artifacts:
@@ -46,7 +46,9 @@ sca:
 
 secrets:
   stage: build
-  image: zricethezav/gitleaks
+  image:
+    entrypoint: [""]
+    name: zricethezav/gitleaks
   script:
     - gitleaks detect --source . -v
   rules:
