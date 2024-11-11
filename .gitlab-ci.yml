@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - deploy
 
 build:
   image: node:latest
@@ -75,8 +76,7 @@ deploy-test:
   only:
     - main
   variables:
-    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-    AWS_DEFAULT_REGION: us-east-1
+    AWS_CREDS_TARGET_ROLE: arn:aws:iam::464380571579:role/gitlab-caseypl
+    AWS_DEFAULT_REGION: us-west-2
   dependencies:
     - build
