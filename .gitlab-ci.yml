@@ -14,7 +14,8 @@ build:
   variables:
     AWS_CREDS_TARGET_ROLE: arn:aws:iam::464380571579:role/gitlab-caseypl
     AWS_DEFAULT_REGION: us-west-2
-    AWS_SDK_LOAD_CONFIG: true
+    AWS_SDK_LOAD_CONFIG: "true"
+    AWS_EC2_METADATA_DISABLED: "true"
     CI_REGISTRY_IMAGE: 464380571579.dkr.ecr.us-west-2.amazonaws.com/cdk-hnb659fds-container-assets-464380571579-us-west-2
   script:
     - /kaniko/executor
