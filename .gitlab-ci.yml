@@ -4,14 +4,21 @@ stages:
   - prod
 
 build:
-  image: node:latest
   stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.2-debug
+    entrypoint: [""]
+  variables:
+    AWS_CREDS_TARGET_ROLE: arn:aws:iam::464380571579:role/gitlab-caseypl
+    AWS_DEFAULT_REGION: us-west-2
+    CI_REGISTRY_IMAGE: 464380571579.dkr.ecr.us-west-2.amazonaws.com/cdk-hnb659fds-container-assets-464380571579-us-west-2
   script:
-    - yarn install
-    - npm run build
-  artifacts:
-    paths:
-      - dist/
+    -  mkdir -p /kaniko/.docker
+    -  echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
 
 unit-test:
   image: node:latest
@@ -76,7 +83,7 @@ deploy-gamma:
   script:
     - npm install -g aws-cdk
     - yarn install
-    - cdk deploy --require-approval never
+    - cdk deploy --require-approval never --context tag=${CI_COMMIT_TAG}
   environment:
     name: test
   only:
