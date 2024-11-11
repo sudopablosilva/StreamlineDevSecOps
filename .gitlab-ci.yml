@@ -50,7 +50,7 @@ secrets:
     entrypoint: [""]
     name: zricethezav/gitleaks
   script:
-    - gitleaks detect --source . -v
+    - gitleaks detect --source . -v -f sarif -o gl-secret-detection-report.json
   rules:
     - when: always
   artifacts:
