@@ -22,8 +22,6 @@ build:
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
-      --cache=true
-      --cache-repo="${CI_REGISTRY_IMAGE}"
       --use-new-run
       --snapshot-mode=redo
 
