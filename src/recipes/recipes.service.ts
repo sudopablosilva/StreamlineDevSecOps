@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Recipe } from './entities/recipe.entity';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { v4 as uuidv4 } from 'uuid';
+
+let idCounter = 0
 
 @Injectable()
 export class RecipesService {
@@ -10,7 +11,7 @@ export class RecipesService {
 
   create(createRecipeDto: CreateRecipeDto): Recipe {
     const newRecipe = {
-      id: uuidv4(),
+      id: idCounter++,
       ...createRecipeDto,
     };
     this.recipes.push(newRecipe);
@@ -23,11 +24,11 @@ export class RecipesService {
     return this.recipes.slice(startIndex, endIndex);
   }
 
-  findOne(id: string): Recipe | undefined {
+  findOne(id: number | string): Recipe | undefined {
     return this.recipes.find(recipe => recipe.id === id);
   }
 
-  update(id: string, updateRecipeDto: UpdateRecipeDto): Recipe | undefined {
+  update(id: number | string, updateRecipeDto: UpdateRecipeDto): Recipe | undefined {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     if (index !== -1) {
       this.recipes[index] = { ...this.recipes[index], ...updateRecipeDto };
@@ -36,7 +37,7 @@ export class RecipesService {
     return undefined;
   }
 
-  remove(id: string): boolean {
+  remove(id: number | string): boolean {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     if (index !== -1) {
       this.recipes.splice(index, 1);

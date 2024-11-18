@@ -22,8 +22,9 @@ describe('RecipesService', () => {
     it('should create a new recipe', () => {
       const createRecipeDto: CreateRecipeDto = {
         title: 'Test Recipe',
+        description: 'Test description',
         ingredients: ['ingredient1', 'ingredient2'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       };
       const createdRecipe = service.create(createRecipeDto);
       expect(createdRecipe).toHaveProperty('id');
@@ -37,8 +38,9 @@ describe('RecipesService', () => {
     it('should return an array of recipes', () => {
       const createRecipeDto: CreateRecipeDto = {
         title: 'Test Recipe',
+        description: 'Test Description',
         ingredients: ['ingredient1', 'ingredient2'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       };
       service.create(createRecipeDto);
       const recipes = service.findAll();
@@ -50,8 +52,9 @@ describe('RecipesService', () => {
       for (let i = 0; i < 15; i++) {
         service.create({
           title: `Test Recipe ${i}`,
+          description: 'Test Description',
           ingredients: ['ingredient1', 'ingredient2'],
-          instructions: 'Test instructions',
+          instructions: ['Test instructions'],
         });
       }
       const page1 = service.findAll(1, 10);
@@ -65,8 +68,9 @@ describe('RecipesService', () => {
     it('should return a recipe by id', () => {
       const createRecipeDto: CreateRecipeDto = {
         title: 'Test Recipe',
+        description: 'Test Description',
         ingredients: ['ingredient1', 'ingredient2'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       };
       const createdRecipe = service.create(createRecipeDto);
       const foundRecipe = service.findOne(createdRecipe.id);
@@ -74,7 +78,7 @@ describe('RecipesService', () => {
     });
 
     it('should return undefined for non-existent id', () => {
-      const foundRecipe = service.findOne('non-existent-id');
+      const foundRecipe = service.findOne(-1);
       expect(foundRecipe).toBeUndefined();
     });
   });
@@ -83,8 +87,9 @@ describe('RecipesService', () => {
     it('should update a recipe', () => {
       const createRecipeDto: CreateRecipeDto = {
         title: 'Test Recipe',
+        description: 'Test Description',
         ingredients: ['ingredient1', 'ingredient2'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       };
       const createdRecipe = service.create(createRecipeDto);
       const updateRecipeDto: UpdateRecipeDto = {
@@ -102,7 +107,7 @@ describe('RecipesService', () => {
       const updateRecipeDto: UpdateRecipeDto = {
         title: 'Updated Test Recipe',
       };
-      const updatedRecipe = service.update('non-existent-id', updateRecipeDto);
+      const updatedRecipe = service.update(-1, updateRecipeDto);
       expect(updatedRecipe).toBeUndefined();
     });
   });
@@ -111,8 +116,9 @@ describe('RecipesService', () => {
     it('should remove a recipe', () => {
       const createRecipeDto: CreateRecipeDto = {
         title: 'Test Recipe',
+        description: 'Test Description',
         ingredients: ['ingredient1', 'ingredient2'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       };
       const createdRecipe = service.create(createRecipeDto);
       const result = service.remove(createdRecipe.id);
@@ -122,7 +128,7 @@ describe('RecipesService', () => {
     });
 
     it('should return false for non-existent id', () => {
-      const result = service.remove('non-existent-id');
+      const result = service.remove(-1);
       expect(result).toBe(false);
     });
   });
@@ -131,18 +137,21 @@ describe('RecipesService', () => {
     it('should return recipes containing the specified ingredient', () => {
       const recipe1 = service.create({
         title: 'Recipe 1',
+        description: 'Test Description',
         ingredients: ['ingredient1', 'ingredient2'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       });
       const recipe2 = service.create({
         title: 'Recipe 2',
+        description: 'Test Description',
         ingredients: ['ingredient2', 'ingredient3'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       });
       const recipe3 = service.create({
         title: 'Recipe 3',
+        description: 'Test Description',
         ingredients: ['ingredient3', 'ingredient4'],
-        instructions: 'Test instructions',
+        instructions: ['Test instructions'],
       });
 
       const results = service.searchByIngredient('ingredient2');
