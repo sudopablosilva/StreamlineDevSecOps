@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Recipe {
   @ApiProperty({ description: 'The unique identifier of the recipe' })
-  id: number | string;
+  id: string;
 
   @ApiProperty({ description: 'The title of the recipe' })
   title: string;
@@ -11,8 +11,8 @@ export class Recipe {
   description?: string;
 
   @ApiProperty({ description: 'List of ingredients', type: [String] })
-  ingredients: string[];
+  ingredients?: string[];
 
   @ApiProperty({ description: 'List of instructions', type: [String] })
-  instructions: string[];
+  instructions?: string[];
 }

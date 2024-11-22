@@ -41,7 +41,7 @@ export class RecipesController {
   @ApiResponse({ status: 404, description: 'Recipe not found.' })
   @ApiParam({ name: 'id', type: String })
   findOne(@Param('id') id: string): Recipe {
-    const recipe = this.recipesService.findOne(Number.parseInt(id));
+    const recipe = this.recipesService.findOne(id);
     if (!recipe) {
       throw new NotFoundException(`Recipe with ID "${id}" not found`);
     }
@@ -55,7 +55,7 @@ export class RecipesController {
   @ApiParam({ name: 'id', type: String })
   @UsePipes(new ValidationPipe({ transform: true }))
   update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto): Recipe {
-    const updatedRecipe = this.recipesService.update(Number.parseInt(id), updateRecipeDto);
+    const updatedRecipe = this.recipesService.update(id, updateRecipeDto);
     if (!updatedRecipe) {
       throw new NotFoundException(`Recipe with ID "${id}" not found`);
     }
@@ -68,7 +68,7 @@ export class RecipesController {
   @ApiResponse({ status: 404, description: 'Recipe not found.' })
   @ApiParam({ name: 'id', type: String })
   remove(@Param('id') id: string): void {
-    const deleted = this.recipesService.remove(Number.parseInt(id));
+    const deleted = this.recipesService.remove(id);
     if (!deleted) {
       throw new NotFoundException(`Recipe with ID "${id}" not found`);
     }

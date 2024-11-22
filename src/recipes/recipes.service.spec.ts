@@ -78,7 +78,7 @@ describe('RecipesService', () => {
     });
 
     it('should return undefined for non-existent id', () => {
-      const foundRecipe = service.findOne(-1);
+      const foundRecipe = service.findOne("invalid-id");
       expect(foundRecipe).toBeUndefined();
     });
   });
@@ -107,7 +107,7 @@ describe('RecipesService', () => {
       const updateRecipeDto: UpdateRecipeDto = {
         title: 'Updated Test Recipe',
       };
-      const updatedRecipe = service.update(-1, updateRecipeDto);
+      const updatedRecipe = service.update("invalid-id", updateRecipeDto);
       expect(updatedRecipe).toBeUndefined();
     });
   });
@@ -128,7 +128,7 @@ describe('RecipesService', () => {
     });
 
     it('should return false for non-existent id', () => {
-      const result = service.remove(-1);
+      const result = service.remove("invalid-id");
       expect(result).toBe(false);
     });
   });

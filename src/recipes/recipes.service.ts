@@ -11,7 +11,7 @@ export class RecipesService {
 
   create(createRecipeDto: CreateRecipeDto): Recipe {
     const newRecipe = {
-      id: idCounter++,
+      id: (idCounter++).toString(),
       ...createRecipeDto,
     };
     this.recipes.push(newRecipe);
@@ -24,11 +24,11 @@ export class RecipesService {
     return this.recipes.slice(startIndex, endIndex);
   }
 
-  findOne(id: number | string): Recipe | undefined {
+  findOne(id: string): Recipe | undefined {
     return this.recipes.find(recipe => recipe.id === id);
   }
 
-  update(id: number | string, updateRecipeDto: UpdateRecipeDto): Recipe | undefined {
+  update(id: string, updateRecipeDto: UpdateRecipeDto): Recipe | undefined {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     if (index !== -1) {
       this.recipes[index] = { ...this.recipes[index], ...updateRecipeDto };
@@ -37,7 +37,7 @@ export class RecipesService {
     return undefined;
   }
 
-  remove(id: number | string): boolean {
+  remove(id: string): boolean {
     const index = this.recipes.findIndex(recipe => recipe.id === id);
     if (index !== -1) {
       this.recipes.splice(index, 1);
@@ -48,7 +48,7 @@ export class RecipesService {
 
   searchByIngredient(ingredient: string): Recipe[] {
     return this.recipes.filter(recipe => 
-      recipe.ingredients.some(i => i.toLowerCase().includes(ingredient.toLowerCase()))
+      recipe.ingredients?.some(i => i.toLowerCase().includes(ingredient.toLowerCase()))
     );
   }
 }
