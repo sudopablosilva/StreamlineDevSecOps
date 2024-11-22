@@ -31,7 +31,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --production
 
 # Copy built application from build stage
-COPY --from=build /usr/src/app/dist ./
+COPY --from=build /usr/src/app/dist/src ./
 
 # Expose the port the app runs on
 EXPOSE 3000

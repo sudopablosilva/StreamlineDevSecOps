@@ -1,10 +1,11 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Cluster, ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
 import { Construct } from 'constructs';
 
 export class EcsServiceStack extends Stack {
+  loadBalancerURL: CfnOutput;
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -25,8 +26,11 @@ export class EcsServiceStack extends Stack {
     });
 
     service.targetGroup.configureHealthCheck({
-      path: '/health',
+      path: '/api/health',
     });
 
+    this.loadBalancerURL = new CfnOutput(this, 'LoadBalancerURL', {
+      value: `http://${service.loadBalancer.loadBalancerDnsName}`,
+    })
   }
 }

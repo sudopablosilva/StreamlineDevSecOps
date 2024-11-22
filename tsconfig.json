@@ -21,6 +21,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "typeRoots": [
       "./node_modules/@types"
     ]
