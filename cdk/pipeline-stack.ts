@@ -106,17 +106,17 @@ export class PipelineStack extends Stack {
       ]
     });
 
-    // Production Wave
-    const prodWave = pipeline.addWave('Production');
+    // // Production Wave
+    // const prodWave = pipeline.addWave('Production');
     
-    // Prod US East 1
-    prodWave.addStage(new ApplicationStage(this, 'ProdUsEast2', {
-      env: { account: '025775160945', region: 'us-east-1' }
-    }));
+    // // Prod US East 1
+    // prodWave.addStage(new ApplicationStage(this, 'ProdUsEast1', {
+    //   env: { account: '025775160945', region: 'us-east-1' }
+    // }));
 
-    // Prod US East 2
-    prodWave.addStage(new ApplicationStage(this, 'ProdEuWest1', {
-      env: { account: '025775160945', region: 'us-west-2' }
-    }));
+    // // Prod US East 2
+    // prodWave.addStage(new ApplicationStage(this, 'ProdUsEast2', {
+    //   env: { account: '025775160945', region: 'us-west-2' }
+    // }));
   }
 }
