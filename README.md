@@ -145,18 +145,13 @@ To bootstrap an account and region:
 
 2. Run the following command, replacing `<account-id>` and `<region>` with your specific values:
    ```
-   cdk bootstrap aws://<account-id>/<region>
+   npx cdk bootstrap aws://<account-id>/<region>
    ```
-
-3. Repeat this process for each account and region combination used in your deployment.
-
-For example, to bootstrap the accounts and regions used in this project:
-```
-cdk bootstrap aws://211125471568/us-east-1
-cdk bootstrap aws://211125471568/us-west-2
-cdk bootstrap aws://211125471568/us-east-2
-cdk bootstrap aws://211125471568/eu-west-1
-```
+3. Run the following command to trust the pipeline account, replacing `<account-id>`, `<pipeline-account-id>` and `<region>` with your specific values:
+   ```
+   npx cdk bootstrap aws://<account-id>/<region> --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --trust <pipeline-account-id> --trust-for-lookup <pipeline-account-id>
+   ```
+4. Repeat this process for each account and region combination used in your deployment.
 
 ## Pipeline Security Process
 
