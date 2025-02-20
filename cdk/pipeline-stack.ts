@@ -116,7 +116,7 @@ export class PipelineStack extends Stack {
 
     // Prod US East 2
     prodWave.addStage(new ApplicationStage(this, 'ProdEuWest1', {
-      env: { account: '025775160945', region: 'us-east-2' }
+      env: { account: '025775160945', region: 'us-west-2' }
     }));
   }
 }
