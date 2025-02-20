@@ -68,24 +68,24 @@ export class PipelineStack extends Stack {
       ],
     });
     
-    // Gamma US East 1
-    const gammaUsEast1 = new ApplicationStage(this, 'GammaUsEast1', {
-      env: { account: '211125471568', region: 'us-east-1' }
-    });
-    pipeline.addStage(gammaUsEast1, {
-      post: [
-        new ShellStep('E2E-Tests', {
-          envFromCfnOutputs: {
-            URL: gammaUsEast1.loadBalancerURL
-          },
-          commands: [
-            'yarn install',
-            'npx playwright install --with-deps',
-            'npx playwright test'
-          ]
-        })
-      ]
-    });
+    // // Gamma US East 1
+    // const gammaUsEast1 = new ApplicationStage(this, 'GammaUsEast1', {
+    //   env: { account: '211125471568', region: 'us-east-1' }
+    // });
+    // pipeline.addStage(gammaUsEast1, {
+    //   post: [
+    //     new ShellStep('E2E-Tests', {
+    //       envFromCfnOutputs: {
+    //         URL: gammaUsEast1.loadBalancerURL
+    //       },
+    //       commands: [
+    //         'yarn install',
+    //         'npx playwright install --with-deps',
+    //         'npx playwright test'
+    //       ]
+    //     })
+    //   ]
+    // });
     
     // Gamma US West 2
     const gammaUsWest2 = new ApplicationStage(this, 'GammaUsWest2', {
@@ -106,17 +106,17 @@ export class PipelineStack extends Stack {
       ]
     });
 
-    // Production Wave
-    const prodWave = pipeline.addWave('Production');
+    // // Production Wave
+    // const prodWave = pipeline.addWave('Production');
     
-    // Prod US East 2
-    prodWave.addStage(new ApplicationStage(this, 'ProdUsEast2', {
-      env: { account: '211125471568', region: 'us-east-2' }
-    }));
+    // // Prod US East 2
+    // prodWave.addStage(new ApplicationStage(this, 'ProdUsEast2', {
+    //   env: { account: '211125471568', region: 'us-east-2' }
+    // }));
 
-    // Prod EU West 1
-    prodWave.addStage(new ApplicationStage(this, 'ProdEuWest1', {
-      env: { account: '211125471568', region: 'eu-west-1' }
-    }));
+    // // Prod EU West 1
+    // prodWave.addStage(new ApplicationStage(this, 'ProdEuWest1', {
+    //   env: { account: '211125471568', region: 'eu-west-1' }
+    // }));
   }
 }
