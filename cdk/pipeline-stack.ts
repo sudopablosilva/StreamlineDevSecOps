@@ -24,8 +24,8 @@ export class PipelineStack extends Stack {
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'EcsServicePipeline',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.connection('cplee/riv-dop337', 'main', {
-          connectionArn: 'arn:aws:codeconnections:us-east-1:464380571579:connection/b02de033-3e86-4ce0-bfd9-1b46e14431e7',
+        input: CodePipelineSource.connection('sudopablosilva/StreamlineDevSecOps', 'main', {
+          connectionArn: 'arn:aws:codeconnections:sa-east-1:211125471568:connection/f9b2e009-e6cd-43e0-9edf-63c16dc89ad8',
           triggerOnPush: true,
         }),
         commands: [
@@ -70,7 +70,7 @@ export class PipelineStack extends Stack {
     
     // Gamma US East 1
     const gammaUsEast1 = new ApplicationStage(this, 'GammaUsEast1', {
-      env: { account: '464380571579', region: 'us-east-1' }
+      env: { account: '211125471568', region: 'us-east-1' }
     });
     pipeline.addStage(gammaUsEast1, {
       post: [
@@ -89,7 +89,7 @@ export class PipelineStack extends Stack {
     
     // Gamma US West 2
     const gammaUsWest2 = new ApplicationStage(this, 'GammaUsWest2', {
-      env: { account: '464380571579', region: 'us-west-2' }
+      env: { account: '211125471568', region: 'us-west-2' }
     });
     gammaWave.addStage(gammaUsWest2, {
       post: [
@@ -111,12 +111,12 @@ export class PipelineStack extends Stack {
     
     // Prod US East 2
     prodWave.addStage(new ApplicationStage(this, 'ProdUsEast2', {
-      env: { account: '464380571579', region: 'us-east-2' }
+      env: { account: '211125471568', region: 'us-east-2' }
     }));
 
     // Prod EU West 1
     prodWave.addStage(new ApplicationStage(this, 'ProdEuWest1', {
-      env: { account: '464380571579', region: 'eu-west-1' }
+      env: { account: '211125471568', region: 'eu-west-1' }
     }));
   }
 }
