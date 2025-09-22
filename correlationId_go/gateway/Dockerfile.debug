@@ -1,0 +1,29 @@
+FROM golang:1.22-alpine AS build
+RUN apk add --no-cache git build-base
+WORKDIR /app
+
+# Bring in modules first for better layer caching
+COPY go.mod ./
+RUN go mod download
+
+# Copy the rest of the source
+COPY . .
+
+# Build the gateway binary for the container's arch, with debug-friendly flags
+ARG TARGETARCH
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} \
+    go build -gcflags="all=-N -l" -o /out/gateway ./gateway
+
+# ---- Runtime (debug) image ----
+FROM alpine:3.20
+RUN apk add --no-cache ca-certificates delve && update-ca-certificates
+WORKDIR /app
+
+# Copy the compiled binary
+COPY --from=build /out/gateway /app/gateway
+
+# Service listens on 8080; Delve on 40000
+ENV ADDR=:8080
+
+# Start Delve headless and WAIT for debugger to attach (no --continue)
+CMD ["sh", "-c", "dlv exec /app/gateway --headless --listen=:40000 --api-version=2 --accept-multiclient"]

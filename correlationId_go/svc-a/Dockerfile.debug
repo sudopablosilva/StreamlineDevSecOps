@@ -1,0 +1,17 @@
+FROM golang:1.22-alpine AS build
+RUN apk add --no-cache git build-base
+WORKDIR /app
+COPY go.mod ./
+RUN go mod download
+COPY . .
+ARG TARGETARCH
+# svc-a
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} \
+    go build -gcflags="all=-N -l" -o /out/svc-a ./svc-a
+
+FROM alpine:3.20
+RUN apk add --no-cache ca-certificates delve && update-ca-certificates
+WORKDIR /app
+COPY --from=build /out/svc-a /app/svc-a
+ENV ADDR=:8080
+CMD ["sh", "-c", "dlv exec /app/svc-a --headless --listen=:40001 --api-version=2 --accept-multiclient"]

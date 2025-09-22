@@ -1,0 +1,41 @@
+services:
+  svc-b:
+    build:
+      context: .
+      dockerfile: ./svc-b/Dockerfile.debug
+    container_name: svc-b
+    environment:
+      - ADDR=:8080
+    expose:
+      - "8080"
+    ports:
+      - "40002:40002"  # delve
+
+  svc-a:
+    build:
+      context: .
+      dockerfile: ./svc-a/Dockerfile.debug
+    container_name: svc-a
+    environment:
+      - SVC_B_URL=http://svc-b:8080/final
+      - ADDR=:8080
+    depends_on:
+      - svc-b
+    expose:
+      - "8080"
+    ports:
+      - "40001:40001"  # delve
+
+  gateway:
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile.debug
+    container_name: gateway
+    environment:
+      - SVC_A_URL=http://svc-a:8080/work
+      - ADDR=:8080
+    depends_on:
+      - svc-a
+    ports:
+      - "8080:8080"    # HTTP
+      - "40000:40000"  # delve
