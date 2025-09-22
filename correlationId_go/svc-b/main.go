@@ -16,7 +16,15 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/final", func(w http.ResponseWriter, r *http.Request) {
 		corr, _ := correlation.FromContext(r.Context())
-		log.Printf("svc-b final handler corr=%s", corr)
+		log.Printf("svc-b /final handler started, method=%s, corr=%s", r.Method, corr)
+		
+		if r.Method != http.MethodPost {
+			log.Printf("svc-b method not allowed: %s, corr=%s", r.Method, corr)
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		
+		log.Printf("svc-b /final handler completed successfully, corr=%s", corr)
 		fmt.Fprintf(w, "svc-b ok (corr=%s)\n", corr)
 	})
 
